@@ -1,0 +1,105 @@
+commands:
+
+kubectl exec -it webapp-color -- sh /opt # nc -v -z -w 5 secure-service 80
+
+expose deployment to a service:
+
+kubectl expose deployment redis --port=6379 --name messaging-service --namespace marketing
+
+
+create a secret :
+
+kubectl create secret generic db-secret-xxdf --from-literal=DB_Host=sql01 --from-literal=DB_User=root --from-literal=DB_Password=password123
+
+add Labels to pod :
+kubectl label pods -l app=nginx tier=fe
+
+add Labels to node :
+kubectl label nodes <nodename> app=nginx
+
+
+export NODE_PORT=$(kubectl get --namespace default -o jsonpath="{.spec.ports[0].nodePort}" services loki-helloworld)
+
+export NODE_IP=$(kubectl get nodes --namespace default -o jsonpath="{.items[0].status.addresses[0].address}")
+
+echo http://$NODE_IP:$NODE_PORT
+
+### ssh into a pod :
+kubectl exec -it -n ckad-pod-design basic-nginx -- sh
+
+kubectl set image -n dashboard-apd deploy results-apd results-apd-container=nginx:1.23.3
+
+kubectl scale deployment -n dashboard-apd results-apd --replicas=4
+
+kubectl --namespace=ckad17-nqoss-aecs get pod --output=custom-columns="NAME:.metadata.name,QOS:.status.qosClass" > /root/qos_status_aecs
+
+kubectl create configmap game-config --from-file=configure-pod-container/configmap/
+
+curl http://cluster3-controlplane:32043
+
+kubectl expose deployment my-deployment --port=80 --target-port=8080 --type=NodePort --name=my-service
+
+kubectl expose deployment <deploymentname> -n <namespace> --type NodePort --port 8080 --name <servicename>
+
+kubectl expose pod my-pod --port=80 --target-port=8080 --type=NodePort
+
+port = on which port service is exposed
+
+target port = on which port the pod is exposed 
+
+
+this is correct for nodeport :
+
+kubectl expose deployment hr-web-app-ckad05-svcn --port=30082 --target-port=8080 --type=NodePort --name=hr-web-app-service-ckad05-svcn
+
+kubectl expose pod <podname> --name <svcname> -n pluto --port 3333 --target-port 80
+
+kubectl expose pod project-plt-6cc-api --name project-plt-6cc-svc -n pluto --port 3333 --target-port 80
+
+kubectl run tmp --restart=Never --rm --image=nginx:alpine -i -- curl http://project-plt-6cc-svc.pluto:3333
+
+k run tmp --restart=Never --rm -i --image=nginx:alpine -- curl 10.44.0.78
+
+k -f /opt/course/14/secret-handler-new.yaml replace --force --grace-period=0
+
+k -n moon exec secret-handler -- env | grep SECRET1
+
+k get ns --show-labels
+
+
+k get svc -n ingress-nginx 
+
+k -n sun annotate pod -l protected=true protected="do not delete this pod"
+
+k get secrets <secretname> -n ns -o=jsonpath='{.data.token}' | base64 --decode 
+
+########
+
+helm ls -A
+
+helm repo ls
+
+helm repo update lvm-crystal-apd -n crystal-apd-ns
+
+helm search repo lvm-crystal-apd/nginx -n crystal-apd-ns -l | head -n30
+
+helm upgrade lvm-crystal-apd lvm-crystal-apd/nginx -n crystal-apd-ns --version=13.2.12 --set replicaCount=2
+
+helm repo add <repository-name> <repository-url>
+
+helm repo update
+
+## this will help you to find the chartname 
+helm search repo bitnami
+
+helm install <release-name> <repository-name>/<chart-name>
+
+kubectl api-resources | grep -i crd
+
+kubectl api-resources --sort-by=kind | grep -i storage.k8s.io/v1  > /root/api-version.txt
+
+check for api version used a
+
+
+
+
